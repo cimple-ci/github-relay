@@ -23,12 +23,14 @@ func main() {
 			Value:       "4567",
 			Usage:       "Port to listen for webhooks",
 			Destination: &webhookPort,
+			EnvVar:      "GITHUB_HOOK_PORT",
 		},
 		cli.StringFlag{
 			Name:        "secret",
 			Value:       "",
 			Usage:       "Secret token",
 			Destination: &webhookSecret,
+			EnvVar:      "GITHUB_HOOK_SECRET",
 		},
 	}
 	app.Action = func(c *cli.Context) error {
@@ -52,6 +54,9 @@ func main() {
 		server := hookserve.NewServer()
 		server.Port = port
 		server.Secret = webhookSecret
+
+		fmt.Printf("Listening on :%d", port)
+
 		server.GoListenAndServe()
 
 		for event := range server.Events {
