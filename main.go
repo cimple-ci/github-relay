@@ -16,7 +16,7 @@ func main() {
 	app := cli.NewApp()
 	app.Name = "Cimple GitHub relay"
 	app.Usage = "Relay webhook requests from GitHub to a Cimple server"
-	app.Version = "0.0.2"
+	app.Version = "0.0.3"
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:        "port",
