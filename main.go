@@ -56,12 +56,15 @@ func main() {
 		server.Secret = webhookSecret
 
 		fmt.Printf("Listening on :%d", port)
+		fmt.Println("")
 
 		server.GoListenAndServe()
 
 		for event := range server.Events {
 			if event.Type == "push" {
-				fmt.Println(event.Owner + " " + event.Repo + " " + event.Branch + " " + event.Commit)
+				fmt.Printf("Recieved push to %s/%s %s", event.Owner, event.Repo, event.Commit)
+				fmt.Println("")
+
 				options := &cimpleApi.BuildSubmissionOptions{
 					Url:    event.Repo,
 					Commit: event.Commit,
@@ -69,7 +72,8 @@ func main() {
 
 				err := cimpleClient.SubmitBuild(options)
 				if err != nil {
-					fmt.Println("Failed to submit build of %s:%s - %s", event.Repo, event.Commit, err)
+					fmt.Printf("Failed to submit build of %s:%s - %s", event.Repo, event.Commit, err)
+					fmt.Println("")
 				}
 			}
 		}
