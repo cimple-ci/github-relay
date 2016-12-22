@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	cimpleApi "github.com/cimple-ci/cimple-go-api"
-	"github.com/phayes/hookserve/hookserve"
+	"github.com/lukesmith/hookserve/hookserve"
 	"github.com/urfave/cli"
 	"os"
 	"strconv"
@@ -74,7 +74,7 @@ func main() {
 				fmt.Println("")
 
 				options := &cimpleApi.BuildSubmissionOptions{
-					Url:    event.Repo,
+					Url:    event.SSHUrl,
 					Commit: event.Commit,
 				}
 
