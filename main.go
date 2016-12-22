@@ -9,14 +9,24 @@ import (
 	"strconv"
 )
 
+var (
+	Revision  string
+	VERSION   string
+	BuildDate string
+)
+
 func main() {
 	var webhookPort string
 	var webhookSecret string
 
+	cli.VersionPrinter = func(c *cli.Context) {
+		fmt.Fprintf(c.App.Writer, "version=%s\n\nrevision=%s\ndate=%s\n", c.App.Version, Revision, BuildDate)
+	}
+
 	app := cli.NewApp()
 	app.Name = "Cimple GitHub relay"
 	app.Usage = "Relay webhook requests from GitHub to a Cimple server"
-	app.Version = "0.0.3"
+	app.Version = VERSION
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
 			Name:        "port",
@@ -36,8 +46,7 @@ func main() {
 	app.Action = func(c *cli.Context) error {
 		cimpleClient, err := cimpleApi.NewApiClient()
 		if err != nil {
-			fmt.Print(err)
-			os.Exit(1)
+			return err
 		}
 		cimpleClient.ServerUrl = os.Getenv("CIMPLE_SERVER_URL")
 
@@ -46,8 +55,7 @@ func main() {
 		}
 
 		if len(cimpleClient.ServerUrl) == 0 {
-			fmt.Print("Cimple server url not specified")
-			os.Exit(1)
+			return fmt.Errorf("Cimple server url not specified")
 		}
 
 		port, _ := strconv.Atoi(webhookPort)
