@@ -74,7 +74,7 @@ func main() {
 				fmt.Println("")
 
 				options := &cimpleApi.BuildSubmissionOptions{
-					Url:    event.SSHUrl,
+					Url:    event.CloneUrl,
 					Commit: event.Commit,
 				}
 

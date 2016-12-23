@@ -4,7 +4,7 @@ cimple {
 
 name = "Cimple Github Relay"
 description = "Relays Github webhook requests to a CimpleCI Server"
-version = "0.0.4"
+version = "0.0.5"
 
 env {
   GOPATH = "{{index .HostEnv \"GOPATH\"}}"
